@@ -456,6 +456,7 @@ export function Contact() {
                 <motion.button
                   type="submit"
                   disabled={formState.isSubmitting}
+                  suppressHydrationWarning={true}
                   className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-4 rounded-lg hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   whileHover={{ scale: formState.isSubmitting ? 1 : 1.02 }}
                   whileTap={{ scale: formState.isSubmitting ? 1 : 0.98 }}

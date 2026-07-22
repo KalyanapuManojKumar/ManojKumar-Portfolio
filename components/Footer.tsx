@@ -245,6 +245,7 @@ export function Footer() {
               {/* Enhanced Back to Top Button */}
               <motion.button
                 onClick={scrollToTop}
+                suppressHydrationWarning={true}
                 className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-blue-600/25 transition-all duration-300 border border-blue-600/50"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}

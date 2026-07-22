@@ -1,17 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-// Initialize Resend with your API key
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Email template function
 function generateEmailTemplate(data: {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
 }) {
-  return `
+    return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -170,15 +168,15 @@ function generateEmailTemplate(data: {
                 <div class="section-content">
                     <p style="margin-bottom: 12px;">
                         <span class="badge">New Inquiry</span>
-                        <span class="timestamp">Received: ${new Date().toLocaleString('en-US', { 
-                            weekday: 'long', 
-                            year: 'numeric', 
-                            month: 'long', 
-                            day: 'numeric', 
-                            hour: '2-digit', 
-                            minute: '2-digit',
-                            timeZoneName: 'short'
-                        })}</span>
+                        <span class="timestamp">Received: ${new Date().toLocaleString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZoneName: 'short'
+    })}</span>
                     </p>
                     <p style="font-size: 14px; color: #6b7280;">
                         You can reply directly to this message by responding to the sender's email address: 
@@ -203,69 +201,78 @@ function generateEmailTemplate(data: {
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const { name, email, subject, message } = body;
+    try {
+        if (!process.env.RESEND_API_KEY) {
+            console.error('RESEND_API_KEY is not defined in the environment variables.');
+            return NextResponse.json(
+                { message: 'Email service is not configured.' },
+                { status: 500 }
+            );
+        }
+        const resend = new Resend(process.env.RESEND_API_KEY);
 
-    // Validate required fields
-    if (!name || !email || !subject || !message) {
-      return NextResponse.json(
-        { message: 'All fields are required' },
-        { status: 400 }
-      );
+        const body = await request.json();
+        const { name, email, subject, message } = body;
+
+        // Validate required fields
+        if (!name || !email || !subject || !message) {
+            return NextResponse.json(
+                { message: 'All fields are required' },
+                { status: 400 }
+            );
+        }
+
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return NextResponse.json(
+                { message: 'Invalid email address' },
+                { status: 400 }
+            );
+        }
+
+        // Generate the HTML email template
+        const emailHtml = generateEmailTemplate({
+            name: name.trim(),
+            email: email.trim(),
+            subject: subject.trim(),
+            message: message.trim()
+        });
+
+        // Send email using Resend
+        const { data, error } = await resend.emails.send({
+            from: 'Contact Form <onboarding@resend.dev>', // Replace with your verified domain
+            to: ['manojkumarkalyanapu@gmail.com'], // Replace with your email
+            subject: `New Contact: ${subject}`,
+            html: emailHtml,
+            replyTo: email.trim(),
+        });
+
+        if (error) {
+            console.error('Resend error:', error);
+            return NextResponse.json(
+                { message: 'Failed to send email. Please try again later.' },
+                { status: 500 }
+            );
+        }
+
+        return NextResponse.json(
+            { message: 'Message sent successfully!', data },
+            { status: 200 }
+        );
+
+    } catch (error) {
+        console.error('Contact form error:', error);
+        return NextResponse.json(
+            { message: 'An unexpected error occurred. Please try again.' },
+            { status: 500 }
+        );
     }
-
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { message: 'Invalid email address' },
-        { status: 400 }
-      );
-    }
-
-    // Generate the HTML email template
-    const emailHtml = generateEmailTemplate({
-      name: name.trim(),
-      email: email.trim(),
-      subject: subject.trim(),
-      message: message.trim()
-    });
-
-    // Send email using Resend
-    const { data, error } = await resend.emails.send({
-      from: 'Contact Form <onboarding@resend.dev>', // Replace with your verified domain
-      to: ['manojkumarkalyanapu@gmail.com'], // Replace with your email
-      subject: `New Contact: ${subject}`,
-      html: emailHtml,
-      replyTo: email.trim(),
-    });
-
-    if (error) {
-      console.error('Resend error:', error);
-      return NextResponse.json(
-        { message: 'Failed to send email. Please try again later.' },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json(
-      { message: 'Message sent successfully!', data },
-      { status: 200 }
-    );
-
-  } catch (error) {
-    console.error('Contact form error:', error);
-    return NextResponse.json(
-      { message: 'An unexpected error occurred. Please try again.' },
-      { status: 500 }
-    );
-  }
 }
 
 export async function GET() {
-  return NextResponse.json(
-    { message: 'Contact API endpoint is working' },
-    { status: 200 }
-  );
+    return NextResponse.json(
+        { message: 'Contact API endpoint is working' },
+        { status: 200 }
+    );
 }

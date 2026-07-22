@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download, Code, Database, GitBranch, Globe, Server } from "lucide-react";
+import { Download, Code, Database, GitBranch, Globe, Server, MessageCircle } from "lucide-react";
 import { aboutData } from "@/lib/data";
 
 export function About() {
@@ -117,6 +117,7 @@ export function About() {
             <SkillColumn title="Backend" skills={aboutData.skills.backend} delay={0.3} icon={Server} color="purple" />
             <SkillColumn title="Database" skills={aboutData.skills.database} delay={0.4} icon={Database} color="pink" />
             <SkillColumn title="Version Control" skills={aboutData.skills.versionControl} delay={0.5} icon={GitBranch} color="green" />
+            <SkillColumn title="Message Queue & Cache" skills={aboutData.skills.messageQueue_Cache} delay={0.6} icon={MessageCircle} color="orange" />
           </div>
         </div>
       </div>
@@ -143,6 +144,7 @@ function SkillColumn({
     purple: "from-purple-500 to-purple-600",
     pink: "from-pink-500 to-pink-600",
     green: "from-green-500 to-green-600",
+    orange: "from-orange-500 to-orange-600",
   };
 
   return (
@@ -163,9 +165,8 @@ function SkillColumn({
         transition={{ delay: delay + 0.1, duration: 0.4 }}
       >
         <div
-          className={`w-8 h-8 min-w-[2rem] bg-gradient-to-br ${
-            colorClasses[color as keyof typeof colorClasses]
-          } rounded-lg flex items-center justify-center shadow-md`}
+          className={`w-8 h-8 min-w-[2rem] bg-gradient-to-br ${colorClasses[color as keyof typeof colorClasses]
+            } rounded-lg flex items-center justify-center shadow-md`}
         >
           <Icon className="w-4 h-4 text-white" />
         </div>
@@ -176,9 +177,8 @@ function SkillColumn({
         {skills.map((skill, index) => (
           <motion.span
             key={skill}
-            className={`px-2.5 py-1 bg-gradient-to-r ${
-              colorClasses[color as keyof typeof colorClasses]
-            } text-white text-xs font-medium rounded-md shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5`}
+            className={`px-2.5 py-1 bg-gradient-to-r ${colorClasses[color as keyof typeof colorClasses]
+              } text-white text-xs font-medium rounded-md shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5`}
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-50px" }}

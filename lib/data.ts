@@ -1,9 +1,9 @@
 import { FaInstagram, FaLinkedin, FaTwitter, FaGithub } from "react-icons/fa";
 import type { IconType } from "react-icons";
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
+import {
+  Mail,
+  Phone,
+  MapPin,
   ArrowUp,
   Heart,
   Code,
@@ -20,11 +20,11 @@ export const heroData = {
   greeting: "I'm",
   // Format required by react-type-animation: [text, delay, text, delay...]
   roles: [
-    "Frontend Developer", 
+    "Frontend Developer",
     2000,
-    "Backend Developer", 
+    "Backend Developer",
     2000,
-    "Fullstack Developer", 
+    "Fullstack Developer",
     2000,
   ],
   description: "Experienced web developer with a passion for creating visually stunning and user-friendly websites.",
@@ -53,9 +53,11 @@ export const aboutData = {
   skills: {
     programming: ["JavaScript", "TypeScript", "Python"],
     frontend: ["Angular", "React.js", "Next.js"],
-    backend: ["Node.js", "Express.js", "GraphQL"],
-    database: ["MySQL", "MongoDB", "Redis"],
+    backend: ["Node.js", "Express.js", "Nest.js"],
+    database: ["MySQL", "MongoDB", "PostgreSQL"],
     versionControl: ["Git", "GitHub"],
+    messageQueue_Cache: ["RabbitMQ", "Redis"],
+
   }
 };
 
@@ -86,9 +88,23 @@ export const experienceData = [
       "Used Git/GitHub for version control, managing branches, pull requests, and code updates efficiently.",
     ],
   },
+  {
+    role: "Software Engineer - Full Stack",
+    company: "Aziro",
+    date: "07/2026 - Present",
+    location: "Bangalore, India",
+    responsibilities: [
+      "Maintain and support the DRL and APSL Timesheet Management applications.",
+      "Monitor and resolve application issues, bugs, and user-reported incidents.",
+      "Develop and implement new features based on business requirements.",
+      "Manage and support the Employee, Reporting Manager, and Admin panels of the application.",
+      "Perform application enhancements, testing, and deployment to ensure smooth functionality",
+      "Collaborate with stakeholders and team members to understand requirements and deliver effective solutions.",
+    ],
+  }
 ];
 
- export const contactInfo = [
+export const contactInfo = [
   {
     icon: Mail,
     title: "Email",
@@ -97,13 +113,13 @@ export const experienceData = [
   },
   {
     icon: Phone,
-     title: "Phone",
+    title: "Phone",
     value: "+91 95738 75807",
     href: "tel:+919573875807"
   },
   {
     icon: MapPin,
-     title: "Location",
+    title: "Location",
     value: "Hyderabad, India",
     href: "#"
   }

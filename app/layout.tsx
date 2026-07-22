@@ -23,6 +23,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${poppins.variable} font-sans h-full antialiased scroll-smooth`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-body text-text-second">
         <Navbar />

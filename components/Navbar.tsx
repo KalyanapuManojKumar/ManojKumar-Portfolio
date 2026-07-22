@@ -205,6 +205,7 @@ export function Navbar() {
               className="lg:hidden p-2 sm:p-3 text-gray-600 hover:text-blue-600 transition-colors focus:outline-none rounded-lg hover:bg-gray-100"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Menu"
+              suppressHydrationWarning={true}
               whileHover={{ scale: 1.1, rotate: 5 }}
               whileTap={{ scale: 0.9 }}
             >
